@@ -15,13 +15,11 @@ def is_inside_zeros(start, end) :
 def dfs(frm, idx) :
   answer_list[frm] = result_list[idx]
   if idx == N-1 :
-    if frm == 0 :
-      print(N)
-      print(*answer_list)
-      return True
-    else :
-      answer_list[frm] = 0
-      return False
+    for _ in range(frm) :
+      answer_list.append(answer_list.pop(0))
+    print(N)
+    print(*answer_list)
+    return True
 
   is_enable = False
   _frm = frm
@@ -36,11 +34,7 @@ def dfs(frm, idx) :
   answer_list[frm] = 0
   return is_enable
 
-flg = False
-for i in range(N) :
-  flg |= dfs(i, 0)
-  if flg :
-    break
+
+flg = dfs(0, 0)
 if not flg :
   print(-1)
-    
