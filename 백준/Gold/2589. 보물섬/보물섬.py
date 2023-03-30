@@ -1,30 +1,30 @@
+import sys
 from collections import deque
+input = sys.stdin.readline
 
-def bfs(si, sj):
-    visited = [[0] * W for _ in range(H)]
-    queue = deque()
-    queue.append((si, sj))
-    visited[si][sj] = 1
+N, M = map(int, input().split())
+map_list = [list(map(str, input())) for _ in range(N)]
 
-    while queue:
-        ci, cj = queue.popleft()
-        for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            ni, nj = ci+di, cj+dj
-            if 0 <= ni < H and 0 <= nj < W and visited[ni][nj] == 0 and arr[ni][nj] == 'L':
-                queue.append((ni, nj))
-                visited[ni][nj] = visited[ci][cj] + 1
+result = 0
+for i in range(N) :
+  for j in range(M) :
+    if map_list[i][j] == 'L' :
+      visited = [[False]*M for _ in range(N)]
 
-    return visited[ci][cj]-1
+      q = deque()
+      q.append((j, i, 0))
+      visited[i][j] = True
 
-H, W = map(int, input().split())
-arr = [list(map(str, input())) for _ in range(H)]
-maxV = 0
+      while q :
+        x, y, dist = q.popleft()
+          
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1) ]:
+          ax, ay = x + dx, y + dy
+          if -1 < ax < M and -1 < ay < N and not visited[ay][ax] and map_list[ay][ax] == 'L' :
+            visited[ay][ax] = True
+            q.append((ax, ay, dist+1))
 
-for i in range(H):
-    for j in range(W):
-        if arr[i][j] == 'L':
-            tmp = bfs(i, j)
-            if tmp > maxV:
-                maxV = tmp
+      if dist > result :
+        result = dist
 
-print(maxV)
+print(result)
