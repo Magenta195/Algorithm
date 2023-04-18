@@ -46,7 +46,7 @@ def ismatch(a, b, adj_dict) :
 def full_search(adj_dict) :
   for i in range(N-1) :
     for j in range(i+1, N) :
-      if ismatch(i, j, adj_dict):
+      if parent[i] != parent[j] and ismatch(i, j, adj_dict):
         union(i, j)
 
   for i in range(N) :
