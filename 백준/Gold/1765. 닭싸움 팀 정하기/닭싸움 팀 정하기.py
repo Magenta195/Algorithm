@@ -22,27 +22,25 @@ def union(a, b) :
     parent[pa] = pb
 
 def init() :
-  adj_dict = { key : 
-      { 'E' : list() , 'F' : list() }
-      for key in range(N)
-  }
+  enemy_adj_dict = { key : list() for key in range(N) }
 
   for _ in range(M) :
     typ, p, q = input().split()
     p, q = int(p)-1, int(q)-1
 
-    adj_dict[p][typ].append(q)
-    adj_dict[q][typ].append(p)
-  return adj_dict
+    if typ == 'F' :
+        union(p, q)
+    else :
+        enemy_adj_dict[p].append(q)
+        enemy_adj_dict[q].append(p)
+  return enemy_adj_dict
 
 def ismatch(a, b, adj_dict) :
-    for i in adj_dict[a]['E'] :
-        for j in adj_dict[b]['E'] :
+    for i in adj_dict[a] :
+        for j in adj_dict[b] :
             if i == j :
                 return True
-    if b in adj_dict[a]['F'] and a in adj_dict[b]['F'] :
-        return True
-    
+
     return False
     
 def full_search(adj_dict) :
