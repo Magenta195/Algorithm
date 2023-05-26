@@ -5,9 +5,9 @@ for _ in range(p) :
   l, n = input().split()
   l = int(l)
   flg = False
-  for i in range(len(room_list)) :
-    if len(room_list[i]) < m and abs(l - room_list[i][0][0]) <= 10 :
-      room_list[i].append((l, n))
+  for _room_list in room_list :
+    if len(_room_list) < m and abs(l - _room_list[0][0]) <= 10 :
+      _room_list.append((l, n))
       flg = True
       break
   if not flg :
