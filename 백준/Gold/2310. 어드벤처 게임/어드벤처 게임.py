@@ -1,49 +1,49 @@
-# 어드벤쳐게임
-'''https://www.acmicpc.net/problem/2310'''
-
+from collections import deque
 import sys
 
-try:
-    while True:
-        n = int(sys.stdin.readline())
-        if not n:
-            break
-        graph = dict()
-        dp_arr = [-1] * (n+1)
-        alpha_cost = [None]
+input = sys.stdin.readline
+cvt = lambda x : int(x) - 1
 
-        for i in range(1,n+1):
-            input_list = sys.stdin.readline().split(' ')
-            alpha_cost.append((input_list[0], int(input_list[1])))
-            graph[i] = list(map(int, input_list[2:-1]))
+while True :
+  n = int(input())
+  if not n :
+    break
+  maze_list = list()
+  for _ in range(n) :
+    typ, money, *next_list = input().split()
+    next_list = list(map(cvt, next_list[:-1]))
+    maze_list.append([typ, int(money), next_list])
 
-        k = 0
-        dp_arr[1] = alpha_cost[1][1]
-        
-        # print(graph)
+  visited = [-1]*n  
+  flg = False
 
-        for i in range(1, n+1):
-            for room_ in graph[i]:
-                alpha_, cost_ = alpha_cost[room_]
-                if alpha_ == 'E':
-                    dp_arr[room_] = max(dp_arr[room_], dp_arr[i])
-                elif alpha_ == 'L':
-                    dp_arr[room_] = max(dp_arr[room_], dp_arr[i], cost_)
-                else:
-                    dp_arr[room_] = max(dp_arr[room_], dp_arr[i] - cost_)
+  if maze_list[0][0] == 'T' and maze_list[0][1] > 0 :
+    print('No')
+    continue
+  elif maze_list[0][0] == 'L' :
+    q = deque([(0, maze_list[0][1])])
+    visited[0] = maze_list[0][1]
+  else :
+    q = deque([(0, 0)])
+    visited[0] = 0
+  
+  while q :
+    cur, money = q.popleft()
+    if cur == n-1 :
+      flg = True
+      break
+    for node in maze_list[cur][2] :
+      if maze_list[node][0] == 'T' :
+        if maze_list[node][1] > money :
+          continue
+        next_money = money - maze_list[node][1]
+      elif maze_list[node][0] == 'L' :
+        next_money = max(money, maze_list[node][1])
+      else :
+        next_money = money
+      if visited[node] < next_money :
+        visited[node] = next_money
+        q.append((node, next_money))
 
-                if room_ == n and dp_arr[room_] >= 0:
-                    k = 1
-                    break
-            if k:
-                break
-        
-        if dp_arr[n] >= 0:
-            print('Yes')
-        else:
-            print('No')
-
-
-
-except ValueError or IndexError as e:
-    print(e)
+  print('Yes' if flg else 'No')
+  
