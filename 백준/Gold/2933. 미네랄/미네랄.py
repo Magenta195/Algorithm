@@ -14,7 +14,6 @@ def throw(r, order) :
     _range = range(C-1, -1, -1)
   else :
     _range = range(C)
-
   for i in _range :
     if cave_list[r][i] == 'x' :
       cave_list[r][i] = '.'
@@ -25,7 +24,6 @@ def bfs(r, c, visited) :
   visited[r][c] = True
   visited_coord = [[r, c]]
   q = deque(visited_coord)
-
   while q :
     r, c = q.popleft()
     for k in range(4) :
@@ -44,14 +42,12 @@ def cluster_move(visited_coord) :
   while flg :
     i += 1
     for r, c in visited_coord :
-      r += i
-      if r >= R or cave_list[r][c] == 'x' :
-        i -= 1
+      if r+i >= R or cave_list[r+i][c] == 'x' :
         flg = False
         break
+        
   for r, c in visited_coord :
-    cave_list[r+i][c] = 'x'
-
+    cave_list[r+i-1][c] = 'x'
 
 def cluster_search() :
   visited = [[False]*C for _ in range(R)]
@@ -68,7 +64,6 @@ def cluster_search() :
       break
   if visited_coord :
     cluster_move(visited_coord)
-
 
 for n in range(N) :
   is_movable = throw(R-throw_list[n], n)
