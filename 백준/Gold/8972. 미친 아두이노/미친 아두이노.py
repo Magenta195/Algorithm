@@ -8,17 +8,15 @@ dc = [-1, 0, 1, -1, 0, 1, -1, 0, 1]
 R, C = map(int, input().split())
 map_list = [list(input().strip()) for _ in range(R)]
 
-arduino_list = list()
+arduino_list = set()
 tr, tc = -1, -1
-arduino_visited = defaultdict(int)
 
 for r in range(R) :
   for c in range(C) :
     if map_list[r][c] == 'I' :
       tr, tc = r, c
     elif map_list[r][c] == 'R' :
-      arduino_list.append((r, c))
-      arduino_visited[(r, c)] += 1
+      arduino_list.add((r, c))
 
 move_set = input().strip()
 
@@ -26,8 +24,9 @@ flg = True
 for idx, move in enumerate(move_set) :
   move = int(move) - 1
   tr, tc = tr + dr[move], tc + dc[move]
+  next_arduino_list = set()
+  crashed = set()
   for r, c in arduino_list :
-    arduino_visited[(r, c)] -= 1
     br, bc, bdist = -1, -1, MAX
     for k in range(9) :
       _br, _bc = r + dr[k], c + dc[k]
@@ -36,18 +35,14 @@ for idx, move in enumerate(move_set) :
     if tr == br and tc == bc :
       flg = False
       break
-    arduino_visited[(br, bc)] += 1
-
+    if (br, bc) in next_arduino_list :
+      crashed.add((br, bc))
+    else :
+      next_arduino_list.add((br, bc))
+  
   if not flg :
     break
-  next_arduino_list = list()
-  for key in arduino_visited :
-    if arduino_visited[key] > 0 :
-      if arduino_visited[key] == 1 :
-        next_arduino_list.append(key)
-      else :
-        arduino_visited[key] = 0
-  arduino_list = next_arduino_list
+  arduino_list = next_arduino_list - crashed
 
 if not flg :
   print("kraj {}".format(idx+1))
