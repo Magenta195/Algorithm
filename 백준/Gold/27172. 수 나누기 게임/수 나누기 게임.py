@@ -11,7 +11,7 @@ score_list = [0]*N
 
 for i in range(MAX) :
   if nums[i] > -1 :
-    tmp = i
+    tmp = i*2
     while tmp < MAX :
       if nums[tmp] > -1 :
         score_list[nums[i]] += 1
