@@ -11,11 +11,9 @@ score_list = [0]*N
 
 for i in range(MAX) :
   if nums[i] > -1 :
-    tmp = i*2
-    while tmp < MAX :
-      if nums[tmp] > -1 :
+    for j in range(i*2, MAX, i) :
+      if nums[j] > -1 :
         score_list[nums[i]] += 1
-        score_list[nums[tmp]] -= 1
-      tmp += i
+        score_list[nums[j]] -= 1
 
 print(*score_list)
