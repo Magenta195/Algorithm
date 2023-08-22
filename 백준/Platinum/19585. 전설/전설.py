@@ -24,15 +24,14 @@ Q = int(input())
 for _ in range(Q) :
   team = input().strip()
   length = len(team)
-  q = [[0, color_dict]]
+  cur_dict = color_dict
   enable = False
-
-  while q :
-    idx, cur_dict = q.pop()
-    if 0 < idx < length and endpoint in cur_dict and team[idx:] in name_set :
+  for i in range(length) :
+    if endpoint in cur_dict and team[i:] in name_set :
       enable = True
       break
-    if idx < length and team[idx] in cur_dict :
-      q.append([idx+1, cur_dict[team[idx]]])
+    if team[i] not in cur_dict :
+      break
+    cur_dict = cur_dict[team[i]]
 
   print('Yes' if enable else 'No')
