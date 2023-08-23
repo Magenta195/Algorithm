@@ -2,11 +2,10 @@ from collections import deque
 MAX = 500001
 
 N, K = map(int, input().split())
-sum_list, answer_list = [0], [K]
+answer_list = [K]
 t = 1
-while sum_list[-1] + K < MAX :
-  sum_list.append(sum_list[-1] + t)
-  answer_list.append(sum_list[-1] + K)
+while answer_list[-1] < MAX :
+  answer_list.append(answer_list[-1] + t)
   t += 1
 
 q = deque([(N, 0)])
