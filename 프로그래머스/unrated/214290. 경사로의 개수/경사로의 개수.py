@@ -15,10 +15,8 @@ def matmul(mat1, mat2) :
 def matpow(mat, k) :
     if k == 1 :
         return mat
-    
     p = matpow(mat, k // 2)
     p = matmul(p, p)
-    
     if k % 2 :
         return matmul(p, mat)
     else :
@@ -49,17 +47,11 @@ def find_pattern(grid, d, k) :
             
     mat = [[dp[0][i][j] % MOD for j in range(L)] for i in range(L)]
     mat = matpow(mat, k)
-    
     answer = 0
     for i in range(L) :
         for j in range(L) :
             answer = (answer + mat[i][j]) % MOD
             
-    return answer
-
-def cal_dp(pattern, k) :
-
-    
     return answer
 
 def solution(grid, d, k):
