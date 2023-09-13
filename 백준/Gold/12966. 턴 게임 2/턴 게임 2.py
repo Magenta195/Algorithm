@@ -1,4 +1,3 @@
-MAX = float('inf')
 x, y = map(int, input().split())
 total = x + y
 if total ** 0.5 % 1 != 0 :
