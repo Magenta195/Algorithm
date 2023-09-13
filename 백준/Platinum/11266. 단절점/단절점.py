@@ -1,10 +1,10 @@
 import sys
 from collections import defaultdict
 sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 MAX = float('inf')
 
 V, E = map(int, input().split())
-
 visit_order = [MAX]*V
 order = 0
 answer = set()
