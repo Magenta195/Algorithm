@@ -9,8 +9,5 @@ if D/T <= 1 :
 
 direct = dist // D * T
 answer = direct + min(dist % D, T + (D - dist % D), 2*T)
-if dist < 2*D :
-  answer = min(answer, 2*T)
-if dist >= 2*D :
-  answer = min(answer, direct + T)
+answer = min(answer, max(2*T, direct + T))
 print(answer)
