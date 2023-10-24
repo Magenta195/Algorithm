@@ -3,7 +3,7 @@ from collections import deque
 X, Y, D, T = map(int, input().split())
 dist = (X**2 + Y**2) ** 0.5
 
-if D/T < 1 :
+if D/T <= 1 :
   print(dist)
   exit()
 
