@@ -1,4 +1,3 @@
-import math
 N, M, K = map(int, input().split())
 
 if M + K > N + 1 or M*K < N:
