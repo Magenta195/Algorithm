@@ -13,25 +13,17 @@ for node, parent in enumerate(map(int, input().split())) :
   else :
     root = node
 
-def dfs(node, tag) :
+def dfs(node) :
   global ans
-  if tag :
-    visited[node] = True
-    for child in child_dict[node] :
-      dfs(child, tag)
-    return
-  if visited[node] :
-    return
-
   tmp = 0
   for child in child_dict[node] :
     if not visited[child] :
-      dfs(child, tag)
+      dfs(child)
       tmp += 1
   if not tmp :
     ans += 1
-      
-
-dfs(int(input()), True)
-dfs(root, False)
+  
+visited[int(input())] = True
+if not visited[root] :
+  dfs(root)
 print(ans)
