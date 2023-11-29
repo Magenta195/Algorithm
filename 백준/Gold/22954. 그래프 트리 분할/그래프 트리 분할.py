@@ -4,7 +4,7 @@ input = sys.stdin.readline
 
 N, M = map(int, input().split())
 edge_list = [[i] + list(map(int, input().split())) for i in range(1, M+1)]
-if N <= 2 :
+if N <= 2 or M <= N-3:
   print(-1)
   exit()
 
