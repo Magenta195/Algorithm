@@ -1,8 +1,9 @@
 import sys
+sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
-worker_list = [list(map(int, input().split()))[1:] for _ in range(N)]
+worker_list = [tuple(map(int, input().split()))[1:] for _ in range(N)]
 works = [-1]*(M+1)
 ans = 0
 
@@ -12,15 +13,23 @@ def dfs(worker) :
   visited[worker] = True
 
   for work in worker_list[worker] :
-    if works[work] == -1 or dfs(works[work]) :
+    if works[work] == -1 :
+      works[work] = worker
+      return True
+  for work in worker_list[worker] :
+    if dfs(works[work]) :
       works[work] = worker
       return True
   return False
 
 for i in range(N) :
-  for _ in range(2) :
-    visited = [False]*(N)
-    if dfs(i) :
-      ans += 1
+  visited = [False]*N
+  if dfs(i) :
+    ans += 1
+  visited = [False]*N
+  if dfs(i) :
+    ans += 1
+  if ans == M :
+    break
 
 print(ans)
