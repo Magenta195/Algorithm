@@ -1,16 +1,16 @@
 import sys
+sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 N, Q = map(int, input().split())
 
-union_target = [0]*(N+1)
+union_target = [1]*(N+1)
 parents = list(range(N+1))
 for i in range(2, N+1) :
   ui = int(input())
   union_target[i] = ui
 
 ans = list()
-
 def find(a) :
   if a == parents[a] :
     return a
@@ -31,4 +31,3 @@ for q in reversed(queries) :
     ans.append("YES" if find(a) == find(b) else "NO")
 
 print(*reversed(ans), sep = "\n")
-    
