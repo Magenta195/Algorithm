@@ -13,12 +13,13 @@ def div_and_con(start, end, depth, idx) :
   div_and_con(start, mid-1, depth+1, idx*2)
   div_and_con(mid+1, end, depth+1, idx*2+1)
 
-def maximum_subquery(mindepth, maxdepth) :
+def maximum_subquery(a, b) :
   global ans
   tmp = None
   result = -float('inf')
-  for i in range(N) :
-    if not mindepth <= depth_list[i] <= maxdepth :
+  minrange = 2 ** (maxdepth - b) - 1
+  for i in range(minrange, N-minrange) :
+    if not a <= depth_list[i] <= b :
       continue
     if tmp is None :
       tmp = nums[i]
