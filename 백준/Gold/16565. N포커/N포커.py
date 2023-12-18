@@ -1,13 +1,8 @@
 MOD = 10007
 N = int(input())
-if N < 4 :
-  print(0)
-  exit()
-if N == 52 :
-  print(1)
-  exit()
+
 comb = [[0]*53 for _ in range(53)]
-comb[1][0] = comb[1][1] = 1
+comb[0][0] = comb[1][0] = comb[1][1] = 1
 for i in range(2, 53) :
   comb[i][0] = comb[i][i] = 1
   for j in range(1, i) :
