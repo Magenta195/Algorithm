@@ -12,32 +12,24 @@ for _ in range(M) :
   min_edge[E][S] = min_edge[S][E] = min(min_edge[S][E], L)
   max_edge[E][S] = max_edge[S][E] = max(max_edge[S][E], L)
 
-def bfs(init) :
-  global ans
-  visited = [float('inf')]*(N+1)
-  visited[init] = 0
-  q = deque([(init, 0)])
-  
-  while q :
-    node, t = q.popleft()
-
-    for i in range(1, N+1) :
-      if min_edge[node][i] == MAX:
+for k in range(1, N+1) :
+  for i in range(1, N) :
+    for j in range(i+1, N+1) :
+      if i == k or j == k :
         continue
-      if visited[i] > t + min_edge[node][i] :
-        visited[i] = t + min_edge[node][i]
-        q.append((i, t + min_edge[node][i]))
+      if min_edge[i][j] > min_edge[i][k] + min_edge[k][j] :
+        min_edge[i][j] = min_edge[j][i] = min_edge[i][k] + min_edge[k][j]
 
+for k in range(1, N+1) :
+  min_edge[k][k] = 0
   result = 0.
   for i in range(1, N+1) :
     for j in range(i, N+1) :
       if not max_edge[i][j] :
         continue
-      result = max(result, visited[i], visited[j])
-      if abs(visited[i] - visited[j]) != max_edge[i][j] :
-        result = max(result, max(visited[i], visited[j]) + (max_edge[i][j] - abs(visited[i] - visited[j])) / 2)
+      result = max(result, min_edge[k][i], min_edge[k][j])
+      if abs(min_edge[k][i] - min_edge[k][j]) != max_edge[i][j] :
+        result = max(result, max(min_edge[k][i], min_edge[k][j]) + (max_edge[i][j] - abs(min_edge[k][i] - min_edge[k][j])) / 2)
   ans = min(ans, result)
 
-for i in range(1, N+1) :
-  bfs(i)
 print('{:.01f}'.format(ans))
