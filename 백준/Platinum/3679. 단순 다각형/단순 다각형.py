@@ -6,7 +6,7 @@ def ccw(a, b, c) :
   return (a[0]*b[1] + b[0]*c[1] + c[0]*a[1]) - (a[1]*b[0] + b[1]*c[0] + c[1]*a[0])
 
 def dist(a, b) :
-  return sum([(a[i]-b[i])**2 for i in range(2)])
+  return (a[0]-b[0])**2+(a[1]-b[1])**2
 
 def cmp(a, b) :
   if ccw(ref, a, b) > 0 :
@@ -34,12 +34,11 @@ def solve() :
     if p == ref :
       continue
     if ccw(ref, last_ref, p) == 0 :
-      last.append(p)
+      last.append(p[2])
     else :
       ans.append(p[2])
-  for _, _, i in reversed(last) :
-    ans.append(i)
-  print(*ans)
+  last.reverse()
+  print(*(ans+last))
 
 for _ in range(int(input())) :
   solve()
