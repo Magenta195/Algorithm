@@ -1,44 +1,43 @@
-from collections import defaultdict
+from random import randint
 import sys
 input = sys.stdin.readline
 
+MAX = 20
 N, C = map(int, input().split())
 hats = list(map(int, input().split()))
 M = int(input())
 
-hat_dict = defaultdict(int)
-ans = [0]*M
-queries = [[i] + list(map(lambda x : int(x)-1, input().split())) for i in range(M)]
-queries.sort(key = lambda x : (x[1] // (N ** 0.5), x[2]))
+hatidx = [list() for _ in range(C+1)]
+for i in range(N) :
+  hatidx[hats[i]].append(i)
 
-def check(K) :
-  for key, val in hat_dict.items() :
-    if val > K / 2 :
-      return key
-  return 0
+def cal(l, r, key) :
+  lstart = rstart = 0
+  lend = rend = len(hatidx[key])
+  while lstart < lend :
+    mid = (lstart + lend) // 2
+    if hatidx[key][mid] < l :
+      lstart = mid + 1
+    else :
+      lend = mid
+  while rstart < rend :
+    mid = (rstart + rend) // 2
+    if hatidx[key][mid] <= r :
+      rstart = mid + 1
+    else :
+      rend = mid
+  return rend - lend
 
-l, r = 0, -1
-for idx, i, j in queries :
-  while r < j :
-    r += 1
-    hat_dict[hats[r]] += 1
-  while r > j :
-    hat_dict[hats[r]] -= 1
-    if not hat_dict[hats[r]] :
-      del hat_dict[hats[r]]
-    r -= 1
-  while l < i :
-    hat_dict[hats[l]] -= 1
-    if not hat_dict[hats[l]] :
-      del hat_dict[hats[l]]
-    l += 1
-  while l > i :
-    l -= 1
-    hat_dict[hats[l]] += 1
-  ans[idx] = check(j - i + 1)
-
-for v in ans :
-  if not v :
-    print("no")
+for _ in range(M) :
+  l, r = map(lambda x : int(x)-1, input().split())
+  K = r - l + 1
+  flg = False
+  for _ in range(MAX) :
+    key = hats[randint(l, r)]
+    if cal(l, r, key) > K / 2 :
+      flg = True
+      break
+  if flg :
+    print("yes", key)
   else :
-    print("yes", v)
+    print("no")
