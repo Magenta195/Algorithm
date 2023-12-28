@@ -1,7 +1,6 @@
-from collections import defaultdict
 import sys
 input = sys.stdin.readline
-
+MAX = 100001
 N = int(input())
 sqrt = N ** 0.5
 nums = list(map(int, input().split()))
@@ -11,7 +10,7 @@ ans = [0]*M
 queries = [[i] + list(map(int, input().split())) for i in range(M)]
 queries.sort(key = lambda x : (x[1] // sqrt, x[2]))
 
-num_list = defaultdict(int)
+num_list = [0]*MAX
 cnt, prev_i, prev_j = 0, 0, -1
 table = [0]*(N+2)
 table[0] = N
