@@ -5,23 +5,16 @@ input = sys.stdin.readline
 def solve() :
   global L
   N, L, K = map(int, input().split())
-  ants = list()
-  for _ in range(N) :
-    p, a = map(int, input().split())
-    if a > 0 :
-      p = L - p
-    ants.append([p, a])
-  result = list()
   idx_q = deque()
   fall_q = deque()
-
-  for p, idx in ants :
+  result = list()
+  for _ in range(N) :
+    p, idx = map(int, input().split())
     if idx > 0 :
-      idx_q.append(idx)
-      fall_q.append(p)
-    else :
-      idx_q.append(idx)
-      fall_q.append(p)
+      p = L - p
+    idx_q.append(idx)
+    fall_q.append(p)
+    if idx < 0  :
       result.append((fall_q.pop(), idx_q.popleft()))
   while idx_q and fall_q :
     result.append((fall_q.pop(), idx_q.pop()))
