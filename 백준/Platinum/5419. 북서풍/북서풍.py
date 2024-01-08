@@ -1,4 +1,3 @@
-from bisect import bisect_left
 import sys
 input = sys.stdin.readline
 MAX = float('inf')
@@ -16,32 +15,28 @@ def coord_compress(coord, N) :
       
   return coord, length[0]+1, length[1]+1
 
+def update(i, xlen) :
+  while i <= xlen :
+    tree[i] += 1
+    i += -i & i
+def search(i) :
+  result = 0
+  while i :
+    result += tree[i]
+    i -= -i & i
+  return result
+
 def solve() :
+  global tree
   N = int(input())
-  coord = []
-  for _ in range(N) :
-    x, y = map(int, input().split())
-    coord.append([x, -y])
+  coord = [list(map(int, input().split())) for _ in range(N)]
   coord, xlen, ylen = coord_compress(coord, N)
+  coord.sort(key = lambda x : (x[1], -x[0]))
   tree = [0]*(xlen + 1)
   result = 0
-
-  def update(i) :
-    while i <= xlen :
-      tree[i] += 1
-      i += -i & i
-  def search(i) :
-    result = 0
-    while i :
-      result += tree[i]
-      i -= -i & i
-    return result
-
-  for x, _ in reversed(coord) :
-    update(x)
-    sumval = search(xlen)
-    xval = search(x-1) if x > 1 else 0
-    result += sumval - xval - 1
+  for x, _ in coord :
+    result += search(xlen-x)
+    update(xlen-x, xlen)
   print(result)
 
 for _ in range(int(input())) :
