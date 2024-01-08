@@ -5,21 +5,17 @@ MAX = float('inf')
 N, M = map(int, input().split())
 tree = [[0]*(N+1) for _ in range(N+1)]
 
-def update(x, y, val) :
-  while x <= N :
-    tree[y][x] += val
-    x += -x & x
-    
 def update2D(x, y, val) :
   while y <= N :
-    update(x, y, val)
+    _x = x
+    while _x <= N :
+      tree[y][_x] += val
+      _x += -_x & _x
     y += -y & y
 
 def search(x, y) :
   result = 0
-  while x :
-    result += tree[y][x]
-    x -= -x & x
+
   return result
 
 def search2D(x, y) :
@@ -27,7 +23,10 @@ def search2D(x, y) :
     return 0
   result = 0
   while y :
-    result += search(x, y)
+    _x = x
+    while _x :
+      result += tree[y][_x]
+      _x -= -_x & _x
     y -= -y & y
   return result
 
