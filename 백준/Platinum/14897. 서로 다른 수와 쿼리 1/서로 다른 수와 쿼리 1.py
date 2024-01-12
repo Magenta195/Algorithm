@@ -5,13 +5,11 @@ input = sys.stdin.readline
 
 N = int(input())
 nums = list(map(int, input().split()))
-nxt = [N]*N
 nxt_dict = dict()
 nxt_list = defaultdict(list) 
 for i in range(N-1, -1, -1) :
-  if nums[i] in nxt_dict :
-    nxt[i] = nxt_dict[nums[i]]
-  nxt_list[nxt[i]].append(i)
+  nxt = nxt_dict[nums[i]] if nums[i] in nxt_dict else N
+  nxt_list[nxt].append(i)
   nxt_dict[nums[i]] = i
 
 sz = 1 << math.ceil(math.log2(N+1))
@@ -42,9 +40,8 @@ def search(l, r) :
 Q = int(input())
 ans = [0]*Q
 queries = [[i] + list(map(int, input().split())) for i in range(Q)]
-queries.sort(key = lambda x : (-x[2], -x[1]))
+queries.sort(key = lambda x : -x[2])
 i = N+1
-
 for idx, l, r in queries :
   l -= 1
   r -= 1
