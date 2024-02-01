@@ -1,4 +1,3 @@
-from collections import defaultdict
 import sys
 input = sys.stdin.readline
 
@@ -38,7 +37,6 @@ for i in range(1, N) :
 if len(tmp) > 1 :
   ans.append(sorted(tmp))
 
-ans.sort()
 print(len(ans))
-for _ans in ans :
+for _ans in sorted(ans) :
   print(*_ans)
