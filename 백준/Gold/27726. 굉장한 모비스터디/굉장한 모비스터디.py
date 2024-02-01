@@ -25,25 +25,20 @@ for i in range(3) :
   for j in range(1, N+1) :
     find(j, i)
 
-p = sorted([p[i] + [i] for i in range(1, N+1)])
+p = sorted([[tuple(p[i]), i] for i in range(1, N+1)])
 ans = []
-tmp = []
-for i in range(N-1) :
-  ta, a = tuple(p[i][:3]), p[i][3]
-  tb, b = tuple(p[i+1][:3]), p[i+1][3]
-  if ta == tb :
-    if not tmp :
-      tmp = [a, b]
-    else :
-      tmp.append(b)
+tmp, prev = [p[0][1]], p[0][0]
+for i in range(1, N) :
+  if prev == p[i][0] :
+    tmp.append(p[i][1])
   else :
-    if tmp :
+    if len(tmp) > 1 :
       ans.append(sorted(tmp))
-    tmp = []
-if tmp :
+    tmp, prev = [p[i][1]], p[i][0]
+if len(tmp) > 1 :
   ans.append(sorted(tmp))
 
-ans.sort(key = lambda x : x[0])
+ans.sort()
 print(len(ans))
 for _ans in ans :
   print(*_ans)
