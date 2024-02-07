@@ -1,4 +1,4 @@
-from heapq import *
+from collections import defaultdict
 import sys
 input = sys.stdin.readline
 
@@ -7,16 +7,21 @@ rain = list(map(int, input().split()))
 
 sums = [0]*N
 evap = [0]*N
-q = []
+q = defaultdict(lambda : [0, 0])
+cnt = 0
+
 for i in range(N) :
   sums[i] = rain[i]
   if i > 0 :
     sums[i] += sums[i-1]
-  while q and q[0][0] <= i :
-    _, left = heappop(q)
-    evap[i] += left
-  evap[i] += len(q) * M
-  heappush(q, (i + rain[i] // M + 1, rain[i] % M))
+  if i in q :
+    evap[i] += q[i][1]
+    cnt -= q[i][0]
+    del q[i]
+  evap[i] += cnt * M
+  q[i+1+rain[i]//M][0] += 1
+  q[i+1+rain[i]//M][1] += rain[i] % M
+  cnt += 1
   
 for i in range(1, N) :
   evap[i] += evap[i-1]
