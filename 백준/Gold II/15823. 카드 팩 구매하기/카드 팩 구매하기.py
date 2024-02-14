@@ -20,22 +20,22 @@ for i, c in enumerate(cards) :
 while q :
   _c, j = q.popleft()
   max_len[j] = N - j
-  
+
 def calculate(length) :
   dp = [0]*(N+1)
   for i in range(N) :
     if max_len[i] >= length :
       dp[i+length] = max(dp[i+length], dp[i] + 1)
     dp[i+1] = max(dp[i], dp[i+1])
-  return max(dp) >= M
-  
+  return dp[-1] >= M
+
 def bisect() :
-  start, end = 0, N // M + 1
+  start, end = 1, N // M + 1
   ret = 0
   while start < end :
     mid = (start + end) // 2
     if calculate(mid) :
-      ret = mid * M
+      ret = mid
       start = mid + 1
     else :
       end = mid
