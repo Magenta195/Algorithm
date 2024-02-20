@@ -2,15 +2,16 @@ import sys
 input = sys.stdin.readline
 
 MAX = 29
-trie = [[], [], 0]
+trie = {}
 
 def add(num) :
   cur = trie
   for i in range(MAX, -1, -1) :
     tar = 1 if num & (1 << i) else 0
-    if not cur[tar] :
-      cur[tar] = [[], [], 0]
-    cur[tar][2] += 1
+    if tar not in cur :
+      cur[tar] = { 2 : 1 }
+    else :
+      cur[tar][2] += 1
     cur = cur[tar]
 
 def delete(num) :
@@ -19,7 +20,7 @@ def delete(num) :
     tar = 1 if num & (1 << i) else 0
     cur[tar][2] -= 1
     if not cur[tar][2] :
-      cur[tar] = []
+      del cur[tar]
       return
     cur = cur[tar]
 
@@ -30,7 +31,7 @@ def search(num) :
     flg = num & (1 << i)
     _range = [0, 1] if num & (1 << i) else [1, 0]
     for j in _range :
-      if not cur[j] :
+      if j not in cur :
         continue
       if j and not flg or not j and flg :
         res += 1 << i
