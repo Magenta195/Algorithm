@@ -31,12 +31,11 @@ def search(num) :
     flg = num & (1 << i)
     _range = [0, 1] if num & (1 << i) else [1, 0]
     for j in _range :
-      if j not in cur :
-        continue
-      if j and not flg or not j and flg :
-        res += 1 << i
-      cur = cur[j]
-      break
+      if j in cur :    
+        break
+    if j and not flg or not j and flg :
+      res += 1 << i
+    cur = cur[j]
   print(res)
 
 M = int(input())
