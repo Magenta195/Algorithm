@@ -30,11 +30,14 @@ def matpow(A, n) :
 def solve(m, b) :
   if b == 1 :
     return m
-  lmat = solve(m, b // 2)
-  rmat = matsum(matpow(m, b // 2))
+  if b % 2 :
+    lmat = matsum(m, matpow(m, b // 2 + 1))
+  else :
+    lmat = matsum(matpow(m, b // 2))
+  rmat = solve(m, b // 2)
   res = matmul(lmat, rmat)
   if b % 2 :
-    res = matsum(m, matmul(m, res))
+    res = matsum(m, res)
   return res
 
 ans = solve(mat, B)
