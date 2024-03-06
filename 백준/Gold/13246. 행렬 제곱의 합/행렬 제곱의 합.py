@@ -34,7 +34,7 @@ def solve(m, b) :
   rmat = matsum(matpow(m, b // 2))
   res = matmul(lmat, rmat)
   if b % 2 :
-    res = matsum(res, matpow(m, b))
+    res = matsum(m, matmul(m, res))
   return res
 
 ans = solve(mat, B)
